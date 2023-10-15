@@ -1,0 +1,17 @@
+{% extends 'food_list.html' %}
+{% block abc %}
+
+<div class="text-center" style="margin-top: 150px;">
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <label for="address" style="color: black; font-weight: bolder; font-size: x-large;"> Address</label>
+        <input style="width: 500px; border: 2px solid rgb(0, 0, 0); border-radius: 5px;" type="text" name="address" placeholder="Your address">
+        <br>
+        <label for="phone" style="color: black; font-weight: bolder; font-size: x-large;">Phone</label>
+        <input type="text" name="phone" placeholder="Your phone no.">
+        <div>
+            <button class="btn bg-primary" type="submit">Checkout</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+
+<a href="{%url 'signup'%}">SignUp</a> &nbsp; 
+<a href="{%url 'login'%}">Login</a> 
+<a href="">store name</a> &nbsp;
+<br>
+{% load cart %}
+<a href="#" > {{request.session.email}}</a>
+<a href="{% url 'cart' %}" > Cart </a>
+<a href="#" > Order </a>
+<a href="{% url 'logout' %}" > Logout</a>
+
+

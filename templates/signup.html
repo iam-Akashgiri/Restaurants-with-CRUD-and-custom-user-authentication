@@ -1,0 +1,147 @@
+
+{% extends 'food_list.html' %}
+{% block abc %}
+
+<style>
+
+    .container {
+        background-size: 100%;
+        width: 300px;
+        margin: 0 auto;
+        margin-top: 30px;
+        background-color: whitesmoke;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 20px 10px rgb(76, 135, 64);
+        animation: changelogo 10s infinite alternate-reverse;
+
+    }
+
+
+    @keyframes changelogo {
+        0% {
+            background-color: whitesmoke;
+        }
+
+        25% {
+            background-color: lightgreen;
+        }
+
+        50% {
+            background-color: rgb(164, 252, 164);
+        }
+
+        75% {
+            background-color: limegreen;
+        }
+
+        100% {
+            background-color: rgb(152, 218, 152);
+        }
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .inputs {
+        margin-bottom: 20px;
+    }
+
+    .inputs label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .inputs input {
+        width: 98%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #a40808;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+</style>
+
+<!-- CONTAINER FOR LOGIN FORM  -->
+
+<div class="container">
+    <h2>Sign Up</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% if error_msg %}
+
+        <small id="passwordHelp" class="text-danger">
+            <i>{{error_msg}}</i>
+          </small>
+    
+        {% endif %}
+        <div class="inputs">
+            <label for="firstname">Firstname</label>
+            <input type="text" name="firstname" value="{{values.firstname}}" placeholder="Firstname"> <br>
+            <label for="lastname">Lastname</label>
+            <input type="text" name="lastname" value="{{values.lastname}}" placeholder="Lastname"><br>
+                <label for="lastname">Phone Number</label>
+            <input type="text" name="phone"  value="{{values.phone}}" placeholder="Phone number"><br>
+                <label for="email">Email address</label>
+            <input type="email" name="email" value="{{values.email}}"  placeholder="Enter your email"> <br>
+        
+            <label for="password">Password</label>
+            <input type="password" name="password"  placeholder="Password">
+        </div>
+        <!-- <div class="inputs">
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password">
+        </div> -->
+        <div>
+            <button type="submit">Login</button>
+        </div>
+        Already have an account..!!<a href="{% url 'login' %}"> Login</a> Instead!
+    </form>
+</div>
+
+
+<form action="" method="post" class="bg-dark">
+    {%csrf_token%}
+         
+        <label for="firstname">Firstname</label>
+        <input type="text" name="firstname" value="{{values.firstname}}" placeholder="Firstname"> <br>
+        <label for="lastname">Lastname</label>
+        <input type="text" name="lastname" value="{{values.lastname}}" placeholder="Lastname"><br>
+            <label for="lastname">Phone Number</label>
+        <input type="text" name="phone"  value="{{values.phone}}" placeholder="Phone number"><br>
+            <label for="email">Email address</label>
+        <input type="email" name="email" value="{{values.email}}"  placeholder="Enter your email"> <br>
+    
+        <label for="password">Password</label>
+        <input type="password" name="password"  placeholder="Password"> <br>
+        {% if messages %}
+        {% for message in messages %}
+            <h6>{{message}}</h6>
+        {% endfor %}
+    {% endif %}
+    {% if error %}
+    {{error}}
+             
+  {% endif %}
+        <input type="submit" value="Register" > 
+        <a href="{% url 'login' %}">Login</a> Instead!
+    
+</form>
+
+
+{% endblock %}
+        

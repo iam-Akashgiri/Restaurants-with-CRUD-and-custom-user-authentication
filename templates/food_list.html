@@ -1,0 +1,229 @@
+{% load cart %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>HOTEL</title>
+</head>
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url("/static/bg3.jpg");
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        /* place-items: center; */
+        background-size: 100%;
+        animation: changeImage 20s infinite alternate-reverse;
+    }
+
+    @keyframes changeImage {
+        0% {
+            background-image: url("/static/bg.jpg");
+        }
+
+        25% {
+            background-image: url("/static/bg3.jpg");
+        }
+
+        50% {
+            background-image: url("/static/bg4.jpg");
+        }
+
+        75% {
+            background-image: url("/static/bg.jpg");
+        }
+
+        100% {
+            background-image: url("/static/b1.jpg");
+        }
+
+    }
+
+    table,
+    th,
+    td {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+
+    /* setting the text-align property to center*/
+    td {
+        padding: 5px;
+        text-align: center;
+        border: 1px solid black;
+        background-color: rgb(155, 255, 6);
+    }
+
+    th {
+        padding: 5px;
+        text-align: center;
+        color: white;
+        background-color: black;
+    }
+
+    h1 {
+        text-align: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+
+
+    input[type=button]:hover {
+        color: white;
+        background-color: black;
+    }
+
+    input[type=submit]:hover {
+        color: white;
+        background-color: black;
+    }
+
+    input[type=number],
+    input[type=text],
+    textarea,
+    select {
+        border: 2px solid rgb(97, 97, 97);
+    }
+
+    .nav_link:hover {
+        color: orange;
+    }
+
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-sm " style="background-color: black; font-size: large;">
+        <!-- Brand/logo -->
+        <a class="navbar-brand" href="{% url 'food_list' %}"><img src="/media/logo.png" class="rounded-circle" alt=""
+                height="75px" width="75px"></a>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" width="100%" id="navbarNav">
+            <ul class="navbar-nav">
+                {% for cat in categories_list %}
+                <li class="nav-item" >
+                    <a  id="nav_link" style=" font-weight: bolder;" class="nav-link" href="{{cat.id}}/categories_filter">{{cat}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if request.session.email %}
+        <a class="text-right" href="{% url 'logout' %}"><button type="button" class="btn btn-danger ml-2">Log
+                Out</button></a>
+        {% if request.session.cart %}
+        <a class="text-right" href="{% url 'cart' %}"><i class="fa-solid fa-cart-plus fa-shake ml-4 mr-4 fa-xl"
+                style="color: #ffffff;">
+                <span style="color: rgb(243, 238, 238); margin-top: -20px; font-size: medium;">{{request.session.cart| cart_length}}</span>
+            </i></a>
+        {% else %}
+        <a class="text-right"  data-bs-toggle="tooltip" data-bs-placement="top" title="Cart is Empty" href="#!"><i class="fa-solid fa-cart-plus ml-4 mr-4 fa-xl"
+                style="color: #ffffff;"></i></a>
+        {% endif %}
+
+        {% else %}
+        <a class="text-right" href="{%url 'login'%}"><button type="button" class="btn btn-success">Log In</button></a>
+        <a class="text-right" href="{%url 'login'%}"><i class="fa-solid fa-right-to-bracket fa-lg"
+                style="color: #f0f2f5;"></i></a>
+        <a class="text-right" href="#"><i class="fa-solid fa-cart-plus fa-beat-fade ml-4 mr-4 fa-xl"
+                style="color: #ffffff;"></i></a>
+        {% endif %}
+        <a class="text-right ml-2" href="{% url 'cart' %}"><span>{{request.session.email}}</span></a>
+    </nav>
+    <div class="container-fluid">
+        {% block abc %}
+        <div class="row ">
+            <div class="col-md-12 mt-2 text-right">
+                <a href="add_categories/">
+                    <button type="button" class="btn btn-primary">ADD Category</button>
+                </a>
+                <a href="add_food/">
+                    <button type="button" class="btn btn-warning ml-2">ADD Food</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {% for food in food_list %}
+        <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
+            <div class="card w-100  my-2 shadow-2-strong">
+                <img src="{{food.picture.url}}" class="card-img-top" style="aspect-ratio: 1 / 1" />
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{food}}</h5>
+                    <p class="card-text">${{food.price}}</p>
+                    <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
+
+
+                        <!-- <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a> -->
+
+                        {% if food|is_in_cart:request.session.cart %}
+                        <form action="/" method="post" class="col-lg-2">
+                            {% csrf_token %}
+                            <input hidden type="text" value="{{food.id}}" name="food">
+                            <input hidden type="text" value="True" name="remove">
+                            <input type="submit" value="-" class="btn btn-dark btn-block">
+                        </form>
+                        <div> {{food|cart_quantity:request.session.cart}} in Cart</div>
+                        <form action="/" method="post" class="col-lg-2">
+                            {% csrf_token %}
+                            <input hidden type="text" value="{{food.id}}" name="food">
+                            <input type="submit" value="+" class="btn btn-dark btn-block">
+                        </form>
+                        {% else %}
+                        <form method="post" action="/" class="">
+                            {% csrf_token %}
+                            <input hidden type="text" value="{{food.id}}" name="food">
+                            <input type="submit" class="btn btn-primary" value="Add to Cart">
+                        </form>
+                        {% endif %}
+
+
+                        <form action="{{food.id}}/update">
+                            <input type="submit" value="Update" class="btn btn-primary shadow-0 me-1 ml-2">
+                        </form>
+                        <form action="{{food.id}}/delete">
+                            <input type="submit" value="Delete" class="btn btn-primary shadow-0 me-1 ml-2">
+                        </form>
+                        <!-- <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i
+                                class="fas fa-heart fa-lg text-secondary px-1"></i></a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
+<!-- 
+<ul>
+    {% for food in food_list %}
+    <li class="bg-dark">
+        {{food}}<img src="{{food.picture.url}}" alt="" width="100px" height="100px">
+
+        <br>
+        <form action="{{food.id}}/update">
+            <input type="submit" value="Update">
+        </form>
+        <form action="{{food.id}}/delete">
+            <input type="submit" value="Delete">
+        </form>
+        <form action="{{food.id}}/detail">
+            <input type="submit" value="Details">
+        </form>
+    </li>
+    <br>
+    {% endfor %}
+</ul> -->
