@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>HOTEL</title>
 </head>
 <style>
-    
     body {
         font-family: Arial, sans-serif;
         background-image: url("/static/bg3.jpg");
@@ -99,7 +101,6 @@
     .nav_link:hover {
         color: orange;
     }
-
 </style>
 
 <body>
@@ -112,8 +113,9 @@
         <div class="collapse navbar-collapse" width="100%" id="navbarNav">
             <ul class="navbar-nav">
                 {% for cat in categories_list %}
-                <li class="nav-item" >
-                    <a  id="nav_link" style=" font-weight: bolder;" class="nav-link" href="{{cat.id}}/categories_filter">{{cat}}</a>
+                <li class="nav-item">
+                    <a id="nav_link" style=" font-weight: bolder;" class="nav-link"
+                        href="{{cat.id}}/categories_filter">{{cat}}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -125,23 +127,61 @@
         {% if request.session.cart %}
         <a class="text-right" href="{% url 'cart' %}"><i class="fa-solid fa-cart-plus fa-shake ml-4 mr-4 fa-xl"
                 style="color: #ffffff;">
-                <span style="color: rgb(243, 238, 238); margin-top: -20px; font-size: medium;">{{request.session.cart| cart_length}}</span>
+                <span style="color: rgb(243, 238, 238); margin-top: -20px; font-size: medium;">{{request.session.cart|cart_length}}</span>
             </i></a>
         {% else %}
-        <a class="text-right"  data-bs-toggle="tooltip" data-bs-placement="top" title="Cart is Empty" href="#!"><i class="fa-solid fa-cart-plus ml-4 mr-4 fa-xl"
-                style="color: #ffffff;"></i></a>
+        <a class="text-right" data-bs-toggle="tooltip" data-bs-placement="top" title="Cart is Empty" href="#!"><i
+                class="fa-solid fa-cart-plus ml-4 mr-4 fa-xl" style="color: #ffffff;"></i></a>
         {% endif %}
 
         {% else %}
         <a class="text-right" href="{%url 'login'%}"><button type="button" class="btn btn-success">Log In</button></a>
         <a class="text-right" href="{%url 'login'%}"><i class="fa-solid fa-right-to-bracket fa-lg"
                 style="color: #f0f2f5;"></i></a>
-        <a class="text-right" href="#"><i class="fa-solid fa-cart-plus fa-beat-fade ml-4 mr-4 fa-xl"
+        <a class="text-right" data-bs-toggle="tooltip" data-bs-placement="top" title="Please Login to add to cart"  href="#"><i class="fa-solid fa-cart-plus fa-beat-fade ml-4 mr-4 fa-xl"
                 style="color: #ffffff;"></i></a>
         {% endif %}
-        <a class="text-right ml-2" href="{% url 'cart' %}"><span>{{request.session.email}}</span></a>
+        <!-- <a class="text-right ml-2" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Welcome {{request.session.first_name}}" href="#!"><span>{{request.session.email}}</span></a> -->
+            <!-- Button trigger modal -->
+            {% if request.session.email %}
+<button type="button" style="color: white; background-color: black;"  data-toggle="modal" data-target="#exampleModal">
+    Welcome {{request.session.first_name}}
+  </button>
+  {% endif %}
+
     </nav>
+
     <div class="container-fluid">
+        
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Customer Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>Email ID:</b> {{request.session.email}} <br>
+          <b>Name:</b> {{request.session.first_name}} <br>
+          <b>Mobile Number:</b> {{request.session.email}} <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
         {% block abc %}
         <div class="row ">
             <div class="col-md-12 mt-2 text-right">

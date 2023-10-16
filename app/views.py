@@ -125,6 +125,7 @@ def login(request):
             if flag:
                 request.session['customer_id'] = customer.id
                 request.session['email'] = customer.email
+                request.session['first_name'] = customer.first_name
                 return redirect("food_list")
             else:
                 error_msg = "Email or Password is incorrect."
