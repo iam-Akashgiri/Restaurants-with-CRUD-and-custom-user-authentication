@@ -34,12 +34,13 @@
   </style>
   <body>
     <div class="card">
-    <div style="border-radius:200px; height:200px; width:200px; background: rgba(0,0,0,.2); margin:0 auto;">
+    <div style="border-radius:200px; height:200px; width:200px; background: rgba(0,0,0,.2); margin:0 auto; box-shadow: 0 2px 20px #61f746;">
       <i class="checkmark">✓</i>
     </div>
       <h1>Success</h1> 
       <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
-      <a class="btn" style="color: white; border: 1px solid white; margin-top: 20px;" href="{% url 'food_list' %}">Buy More</a>
+      
+      <a class="btn" style="color: white; border: 1px solid white; margin-top: 20px; box-shadow: 0 2px 10px #61f746;" href="{% url 'food_list' %}">Buy More</a>
     </div>
 </div>
 {% endblock %}

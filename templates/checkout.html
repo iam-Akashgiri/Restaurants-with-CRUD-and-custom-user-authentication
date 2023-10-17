@@ -10,29 +10,36 @@
         <label for="phone" style="color: black; font-weight: bolder; font-size: x-large;">Phone</label>
         <input type="text" name="phone" placeholder="Your phone no.">
         <div>
-            <button class="btn bg-primary" type="submit">Checkout</button>
+            <button class="btn bg-primary" type="submit">Cash on Delivery</button>
         </div>
     </form>
 </div>
 
-<form action="{% url 'success' %}" method="POST">
-    {% csrf_token %}
-    <input type="text" name="phone" placeholder="Your phone no.">
-    <script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        data-key="rzp_test_jvldepeLzyNxxp" 
-        data-amount="50000" 
-        data-currency="INR"
-        data-order_id="{{payment.id}}" 
-        data-buttontext="Pay with Razorpay"
-        data-name="Acme Corp"
-        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
-        data-image="https://example.com/your_logo.jpg"
-        data-prefill.name="Gaurav Kumar"
-        data-prefill.email="gaurav.kumar@example.com"
-        data-theme.color="#F37254"
-    ></script>
-    <input type="hidden" custom="Hidden Element" name="hidden"/>
-    </form>
+{% load cart %}
+
+ <div class="text-center" style="margin-top: 100px;">
+    <span class="text-light" style="font-size: xx-large; font-weight: bolder; background-color: rgba(0,0,0,.4); border: 2px solid black; padding: 5x; border-radius: 2px;">Total :  
+        {{cart_food|total_cart_price:request.session.cart}}</span>
+
+        <form action="{% url 'success' %}" method="POST">
+            {% csrf_token %}
+            <script
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="rzp_test_jvldepeLzyNxxp" 
+                data-amount="{{cart_food|total_cart_price:request.session.cart}}00" 
+                data-currency="INR"
+                data-order_id="{{payment.id}}" 
+                data-buttontext="Pay Now"
+                data-name="Acme Corp"
+                data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+                data-image="https://example.com/your_logo.jpg"
+                data-prefill.name="Gaurav Kumar"
+                data-prefill.email="gaurav.kumar@example.com"
+                data-theme.color="#F37254"
+            ></script>
+            <input type="hidden" custom="Hidden Element" name="hidden"/>
+            </form>
+ </div> 
+
 
 {% endblock %}
