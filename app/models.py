@@ -39,7 +39,6 @@ class Customer(models.Model):
             return False
 
 
-
 class Order(models.Model):
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     # customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

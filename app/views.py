@@ -1,9 +1,10 @@
 from django.shortcuts import render
-
 from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Food, Categories
 from .forms import FoodForm, CategoriesForm
+from django.views.decorators.csrf import  csrf_exempt
+
 
 # Create your views here.
 
@@ -16,6 +17,7 @@ class FoodListView(ListView):
         context['food_list'] = Food.objects.all()
         context['categories_list'] = Categories.objects.all()
         return context
+    
 
 class FoodDetailView(DetailView):
     model = Food
@@ -73,6 +75,11 @@ from django.contrib.auth.hashers import make_password,check_password
 
 
 # Create your views here.
+
+@csrf_exempt
+def success(request):
+    return render(request, "success.html")
+
 
 def homePage(request):
  if request.method == 'POST':
@@ -177,15 +184,26 @@ def logout(request):
     request.session.clear()
     return redirect('login')
 
+
 def cart(request):
     cart_food_id = list(request.session.get('cart').keys())
     cart_food = Food.get_foods_by_id(cart_food_id)
     print(cart_food)
     return render(request, 'cart.html',{'cart_food': cart_food})
 
-def checkout(request):
+import razorpay
+@csrf_exempt
+def success(request):
+        return render(request, 'success.html')
 
+def checkout(request):
     if request.method == "POST":
+        amount = 500
+        order_currency = 'INR'
+        client = razorpay.Client(auth=('rzp_test_jvldepeLzyNxxp','4YHT6IbxJnEaJGIP4QL4Qy0H'))
+        payment = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
+    
+
         address = request.POST.get("address")
         phone = request.POST.get("phone")
         cart = request.session.get("cart")

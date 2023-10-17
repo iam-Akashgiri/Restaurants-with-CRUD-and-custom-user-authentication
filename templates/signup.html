@@ -13,6 +13,7 @@
         padding: 20px;
         border-radius: 5px;
         box-shadow: 2px 2px 20px 10px rgb(76, 135, 64);
+        color: white;
         animation: changelogo 10s infinite alternate-reverse;
 
     }
@@ -21,22 +22,27 @@
     @keyframes changelogo {
         0% {
             background-color: whitesmoke;
+            color: black;
         }
 
         25% {
             background-color: lightgreen;
+            color: black;
         }
 
         50% {
             background-color: rgb(164, 252, 164);
+            color: black;
         }
 
         75% {
             background-color: limegreen;
+            color: black;
         }
 
         100% {
             background-color: rgb(152, 218, 152);
+            color: black;
         }
     }
 
@@ -112,36 +118,5 @@
         Already have an account..!!<a href="{% url 'login' %}"> Login</a> Instead!
     </form>
 </div>
-
-
-<form action="" method="post" class="bg-dark">
-    {%csrf_token%}
-         
-        <label for="firstname">Firstname</label>
-        <input type="text" name="firstname" value="{{values.firstname}}" placeholder="Firstname"> <br>
-        <label for="lastname">Lastname</label>
-        <input type="text" name="lastname" value="{{values.lastname}}" placeholder="Lastname"><br>
-            <label for="lastname">Phone Number</label>
-        <input type="text" name="phone"  value="{{values.phone}}" placeholder="Phone number"><br>
-            <label for="email">Email address</label>
-        <input type="email" name="email" value="{{values.email}}"  placeholder="Enter your email"> <br>
-    
-        <label for="password">Password</label>
-        <input type="password" name="password"  placeholder="Password"> <br>
-        {% if messages %}
-        {% for message in messages %}
-            <h6>{{message}}</h6>
-        {% endfor %}
-    {% endif %}
-    {% if error %}
-    {{error}}
-             
-  {% endif %}
-        <input type="submit" value="Register" > 
-        <a href="{% url 'login' %}">Login</a> Instead!
-    
-</form>
-
-
 {% endblock %}
         

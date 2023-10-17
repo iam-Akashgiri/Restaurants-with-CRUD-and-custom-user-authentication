@@ -23,7 +23,8 @@ urlpatterns = [
     path('signup/',views.signup,name='signup'),
     path('logout/',views.logout,name='logout'),
     path('cart/', views.cart, name="cart"),
-    path('checkout/',views.checkout,name='checkout')
+    path('checkout/',views.checkout,name='checkout'),
+    path('success',views.success, name='success')
 
 ]
 
