@@ -10,7 +10,6 @@ from django.views.decorators.csrf import  csrf_exempt
 
 class FoodListView(ListView):
     model = Food
-    template_name = ['food_list.html','category/categories_list.html']
     template_name = 'food_list.html'
     def get_context_data(self):
         context = super(FoodListView, self).get_context_data()
@@ -63,8 +62,10 @@ def categories_filter(request,id):
     cat_name = Categories.objects.get(id = cat_id)
 
     cat_food= Food.objects.filter(category_id = cat_id)
+    categories_list = Categories.objects.all()
+
     a = {'cat_food': cat_food, 'cat_name': cat_name}
-    return render(request, 'category/categories_list.html', {'data':a})
+    return render(request, 'category/categories_list.html', {'data':a, 'categories_list': categories_list})
 
 
 
