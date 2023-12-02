@@ -1,5 +1,5 @@
 import razorpay
-from django.shortcuts import render
+from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Food, Categories
@@ -10,7 +10,6 @@ from django.views.decorators.csrf import  csrf_exempt
 
 class FoodListView(ListView):
     model = Food
-    template_name = ['food_list.html','category/categories_list.html']
     template_name = 'food_list.html'
     def get_context_data(self):
         context = super(FoodListView, self).get_context_data()
@@ -63,8 +62,10 @@ def categories_filter(request,id):
     cat_name = Categories.objects.get(id = cat_id)
 
     cat_food= Food.objects.filter(category_id = cat_id)
+    categories_list = Categories.objects.all()
+
     a = {'cat_food': cat_food, 'cat_name': cat_name}
-    return render(request, 'category/categories_list.html', {'data':a})
+    return render(request, 'category/categories_list.html', {'data':a, 'categories_list': categories_list})
 
 
 
@@ -191,13 +192,18 @@ def cart(request):
 
 @csrf_exempt
 def success(request):
-    if request.method == "POST":    
+        request.session['cart'] = {}
+        return render(request, 'success.html')
+
+@csrf_exempt
+def suc(request):
         amount = 500
         order_currency = 'INR'
         client = razorpay.Client(auth=('rzp_test_jvldepeLzyNxxp','4YHT6IbxJnEaJGIP4QL4Qy0H'))
         payment = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
-        return render(request, 'success.html')
-
+        # return render(request, 'success.html')
+        return HttpResponseRedirect('success')
+       
 def checkout(request):
     if request.method == "POST":    
         address = request.POST.get("address")

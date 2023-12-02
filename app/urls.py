@@ -15,7 +15,7 @@ urlpatterns = [
     path('<int:pk>/update', views.FoodUpdateView.as_view(), name='food_delete'),
 
     path('add_categories/', views.CategoriesCreateView.as_view(), name='categories_form'),
-    path('<int:id>/categories_filter', views.categories_filter, name='categories_filter'),
+    path('<int:id>', views.categories_filter, name='categories_filter'),
 
     # loginurls
     path('',views.homePage , name='home') , 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('logout/',views.logout,name='logout'),
     path('cart/', views.cart, name="cart"),
     path('checkout/',views.checkout,name='checkout'),
+    path('suc',views.suc, name='suc'),
     path('success',views.success, name='success')
 
 ]
