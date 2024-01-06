@@ -47,3 +47,11 @@ class Order(models.Model):
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=10)
     date = models.DateTimeField(default=datetime.datetime.today)
+
+class BgImage(models.Model):
+    name = models.CharField(max_length=100)
+    picture = models.ImageField()
+
+    def __str__(self):
+        return self.name
+    
